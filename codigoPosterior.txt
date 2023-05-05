@@ -1,0 +1,166 @@
+const fromProjection = proj4.defs('EPSG:4326'); // WGS84 (Latitude e Longitude)
+const toProjection = proj4.defs('EPSG:3857'); // Web Mercator
+
+let posicaoAtual = [];
+
+    const updateMarkerPosition = () => {
+      axios
+        .get("http://localhost:3000/geoData")
+        .then(({ data }) => {
+          posicaoAtual = data;
+          const posicao = posicaoAtual.length;
+
+          if(posicao === 1){
+            // O array so tem uma posição então é a primeira posição no programa então seta ela em uma cordenada
+            const coordinates = proj4(fromProjection, toProjection, posicaoAtual[0].cordenadas );
+            position.setCoordinates(coordinates);
+          }
+
+          
+          if(posicaoAtual[posicao - 1].nome === posicaoAtual[posicao - 2].nome){
+            // Se o objeto atual foi no mesmo ambiente que o do anterior
+            
+            if(posicaoAtual[posicao - 1].cordenadas !== posicaoAtual[posicao - 2].cordenadas){
+              // Verifica se ele mudou de posição no mesmo ambiente
+              const coordinatesLugarAtual = proj4(fromProjection, toProjection, posicaoAtual[posicao - 1].cordenadas );
+              const coordinatesLugarAnterior = proj4(fromProjection, toProjection, posicaoAtual[posicao - 2].cordenadas );
+              
+            }
+          }else{
+            // Se o objeto atual não foi no mesmo ambiente que o do anterior
+            
+            if(posicaoAtual[posicao - 2].nome === "Quarto1" || posicaoAtual[posicao - 2].nome === "Quarto2" || posicaoAtual[posicao - 2].nome === "Cozinha" ){
+              // faz a animação de movimento até a primeira posição da poliline se for o quarto1,quarto2 ou cozinha
+
+              if(posicaoAtual[posicao - 2].nome === "Quarto1" || posicaoAtual[posicao - 2].nome === "Quarto2"){
+                // Faz a animação até o ponto do centro do corredor
+
+                if(posicaoAtual[posicao - 1].nome === "Corredor"){
+                  // Verifica se é no corredor o ponto da localização atual
+
+                  // Verifica se a posição é igual a do cento, se n for faz o deslocamente até a segunda posição do corredor
+                }
+                if(posicaoAtual[posicao - 1].nome === "Quarto1"){
+                  // Verifica se é no Quarto1 o ponto da localização atual
+
+                  // Faz o deslocamento do centro até a primeira posição do quarto1, então faz o deslocamento até a posição atual do quarto 1
+                }
+                if(posicaoAtual[posicao - 1].nome === "Quarto2"){
+                  // Verifica se é no Quarto2 o ponto da localização atual
+
+                  // Faz o deslocamento do centro até a primeira posição do quarto2, então faz o deslocamento até a posição atual do quarto 2
+                }
+                if(posicaoAtual[posicao - 1].nome === "Sala"){
+                  // Verifica se é na Sala o ponto da localização atual
+
+                  // Faz o deslocamente do centro até o ponto final do centro
+                  // Faz o deslocamento do centro para o ponto inicial da sala
+                  // Verifica se é no ponto inicial da Sala a posição atual. 
+                  // Se não for Faz o deslocamento do ponto inicial da Sala até o ponto real na Sala
+                }
+
+              }else{
+                // Faz a animação da cozinha até o centro da sala
+
+                if(posicaoAtual[posicao - 1].nome === "Corredor"){
+                  // Verifica se é no corredor o ponto da localização atual
+
+                  // Faz o deslocamento do ponto do centro da sala até o inicial da Sala
+                  // Faz o deslocamento do ponto inicial da Sala até o final do Corredor
+                  // Verifica se é no ponto final do corredor a localização atual 
+                  // se não for faz o deslocamento do ponto final do Corredor até o ponto inicial do Corredor
+                }
+                if(posicaoAtual[posicao - 1].nome === "Sala"){
+                  // Verifica se é na Sala o ponto da localização atual
+
+                  // Faz o deslocamento do ponto do centro da sala até o ponto real da Sala
+                }
+              }
+            }
+              
+            if(posicaoAtual[posicao - 2].nome === "Corredor"){
+              // Se a posição anterior foi no Corredor
+
+              if(posicaoAtual[posicao - 1].nome === "Quarto1"){
+                // Verifica se é no Quarto1 o ponto da localização atual
+
+                // Faz o deslocamento até o ponto inicial do Corredor e depois até a primeira posição do quarto1, então faz o deslocamento até a posição atual do quarto 1
+              }
+              if(posicaoAtual[posicao - 1].nome === "Quarto2"){
+                // Verifica se é no Quarto2 o ponto da localização atual
+
+                // Faz o deslocamento até o ponto inicial do Corredor e depois até a primeira posição do quarto2, então faz o deslocamento até a posição atual do quarto 2
+              }
+              if(posicaoAtual[posicao - 1].nome === "Sala"){
+                // Verifica se é na Sala o ponto da localização atual
+
+                // Faz o deslocamento até o ponto final do Corredor
+                // Faz o deslocamento do ponto final do Corredor até o ponto inicial da Sala
+                // Verifica se é no ponto inicial da Sala a posição atual
+                // se não for faz o deslocamento até a posição atual na Sala
+    
+              }
+              if(posicaoAtual[posicao - 1].nome === "Cozinha"){
+                // Verifica se é na Sala o ponto da localização atual
+
+                // Faz o deslocamento até o ponto final do Corredor
+                // Faz o deslocamento do ponto final do Corredor até o ponto inicial da Sala
+                // Faz o deslocamento até o centro da Sala 
+                // faz o deslocamento do centro da Sala até o ponto inicial da Cozinha
+                // Verifica se é no ponto inicial da Cozinha
+                // Se não for faz o deslocamento até o ponto real da Cozinha
+              }
+            }
+
+            if(posicaoAtual[posicao - 2].nome === "Sala"){
+              // Se a posição anterior foi na Sala
+
+              if(posicaoAtual[posicao - 1].nome === "Corredor"){
+                // Verifica se é no corredor o ponto da localização atual
+
+                // Faz o deslocamento até o ponto inicial da Sala
+                // Faz o deslocamento do ponto inicial da Sala até o ponto final do Corredor
+                // Verifica se é no ponto final do Corredor
+                // Se não Faz o deslocamento até o ponto real no corredor
+              }
+              if(posicaoAtual[posicao - 1].nome === "Cozinha"){
+                // Verifica se é na Sala o ponto da localização atual
+
+                // Faz o deslocamento ate o ponto do centro da Sala 
+                // Faz o deslocamento do Ponto do centro da Sala ate o inicial da Cozinha
+                // Verifica se é no ponto inicial da Cozinha
+                // Se não Faz o deslocamento ate o ponto real da Cozinha
+              }
+              if(posicaoAtual[posicao - 1].nome === "Quarto1"){
+                // Verifica se é no Quarto1 o ponto da localização atual
+
+                // Faz o deslocamento até o ponto inicial da Sala
+                // Faz o deslocamento do ponto inicial da Sala até o ponto final do Corredor
+                // Faz o deslocamento do ponto final do Corredor até o ponto inicial do Corredor
+                // Faz o deslocamento do ponto inicial do Corredor até o ponto inicial do Quarto1
+                // Verifica se é no ponto inicial do Quarto 1 a posição atual
+                // Se não Faz o deslocamento até o ponto real no Quarto 1
+              }
+              if(posicaoAtual[posicao - 1].nome === "Quarto2"){
+                // Verifica se é no Quarto2 o ponto da localização atual
+
+                // Faz o deslocamento até o ponto inicial da Sala
+                // Faz o deslocamento do ponto inicial da Sala até o ponto final do Corredor
+                // Faz o deslocamento do ponto final do Corredor até o ponto inicial do Corredor
+                // Faz o deslocamento do ponto inicial do Corredor até o ponto inicial do Quarto2
+                // Verifica se é no ponto inicial do Quarto 2 a posição atual
+                // Se não Faz o deslocamento até o ponto real no Quarto 2
+              }
+            }
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+
+    // atualiza a posição do marcador a cada segundo
+    const intervalId = setInterval(updateMarkerPosition, 1000);
+
+    // limpa o intervalo quando o componente for desmontado
+    return () => clearInterval(intervalId);

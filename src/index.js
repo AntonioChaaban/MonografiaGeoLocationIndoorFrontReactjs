@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import MapComponent from './App';
 import reportWebVitals from './reportWebVitals';
+import TesteContent from './Teste';
+import MapWithAnimatedPoint from './TesteQuatro';
+import TesteDois from './TesteDois';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <MapWithAnimatedPoint />
   </React.StrictMode>
 );
 

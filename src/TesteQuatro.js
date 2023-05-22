@@ -187,11 +187,13 @@ function MapWithAnimatedPoint({ lat, lon }) {
           if(data.cordenadas.length > 0){
             if(caminhos.length === 0){
               caminhos.push(data);
-              position.setCoordinates(data.cordenadas[0]);
+              position.setCoordinates(data.cordenadas);
             }
             // se o data recebido for diferente adicionar
-            if(!caminhos.some(objeto => objeto.bloco === data.bloco)){
-              caminhos.push(data);
+            if(!caminhos.some(objeto => objeto.bloco.id === data.bloco.id)){
+              //console.log(caminhos.some(objeto => objeto.bloco === data.bloco));
+              //console.log(data.bloco.id);
+              //console.log("Ele ta adicioando aqui direto");
               if(data.deslocamento){
 
                 cordenadasIniciais = data.lineString[0];
@@ -207,10 +209,13 @@ function MapWithAnimatedPoint({ lat, lon }) {
                 lastTime = Date.now();
                 geoMarker.setGeometry(null);
 
+                caminhos.push(data);
                 caminhos.splice(0,1);
                 console.log(caminhos);
               }
             }
+            console.log("IMPRIMINDO CAMINHOS");
+            console.log(caminhos);
           }
         })
         .catch(error => {

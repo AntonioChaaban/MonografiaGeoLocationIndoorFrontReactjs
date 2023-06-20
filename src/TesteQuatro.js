@@ -178,8 +178,54 @@ function MapWithAnimatedPoint({ lat, lon }) {
       newMap.render();
     }
     let caminhos = [];
+    const segundoAndar = false;
 
     const atualizarMarcador = () => {
+
+      //Prototipo para deslocamento em segundo andar
+      if(segundoAndar){
+        //Pegando a imagem da planta Mapa e a deixo opaca
+        const aux = newMap.getAllLayers();
+        aux[1].setOpacity(0.2);
+
+        const segundoAndarPlanta = new ImageLayer({
+          source: new ImageStatic({
+            url: require('./images/segundoAndar.png'),
+            imageSize: [217, 443],
+            projection: 'EPSG:4326',
+            imageExtent: [-48.311916720124785, -10.188789777421183, -48.31188719603914, -10.188731692069675],
+          }),
+        });
+
+        const featureApSeis = new Feature({
+          type: 'boardMarker',
+          geometry: new Point([-5378056.395425996,-1140230.4331311558])
+        });
+        
+        const posisao = new Point([-5378057.067235801,-1140231.030295358]);
+        const MarcadorDois = new Feature({
+          type: 'geoMarker',
+          geometry: posisao,
+        });
+
+        const vectorLayerApSeis = new VectorLayer({
+          source: new VectorSource({
+            features: [featureApSeis,MarcadorDois],
+          }),
+          style: function (feature) {
+            return styles[feature.get('type')];
+          },
+        });
+        
+        position.setCoordinates([-5378057.067235801,-1140231.030295358]);
+        //-5378057.067235801,-1140231.030295358
+
+        //-10.188762758684073, -48.31190323591814
+
+        newMap.addLayer(segundoAndarPlanta);
+        newMap.addLayer(vectorLayerApSeis);
+
+      }
       axios
         .get("http://localhost:3000/geoData")
         .then(({ data }) => {
